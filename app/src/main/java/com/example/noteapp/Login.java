@@ -5,16 +5,30 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.concurrent.TimeUnit;
 
 public class Login extends AppCompatActivity {
 
@@ -22,6 +36,7 @@ public class Login extends AppCompatActivity {
     EditText loginEmail, loginPassword;
     Button loginSign, loginRegister;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +44,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         fAuth = FirebaseAuth.getInstance();
-
+        fStore = FirebaseFirestore.getInstance();
         initUi();
         initListener();
     }
@@ -65,13 +80,20 @@ public class Login extends AppCompatActivity {
                 fAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        if(!fAuth.getCurrentUser().isEmailVerified()){
-                            startActivity(new Intent(getApplicationContext(), VerifyEmail.class));
-                            finish();
-                        }else{
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            finish();
-                        }
+                        DocumentReference documentReference = fStore.collection("users")
+                                .document(authResult.getUser().getUid());
+                        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Boolean otpchecked = (Boolean) documentSnapshot.get("otpchecked");
+                                if (!otpchecked) {
+                                    Toast.makeText(getApplicationContext(), "You are not checked OTP", Toast.LENGTH_LONG).show();
+                                } else {
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    finish();
+                                }
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -92,21 +114,11 @@ public class Login extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-//            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//            finish();
-//        }
-//    }
-
     private void initUi(){
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         loginSign = findViewById(R.id.loginSignIn);
         loginRegister = findViewById(R.id.loginRegister);
         loginForgot = findViewById(R.id.loginForgot);
-
     }
 }

@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.noteapp">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -14,9 +14,6 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
-        <activity
-            android:name=".Settings"
-            android:exported="false" />
         <activity
             android:name=".HeaderNavDrawer"
             android:exported="false" />
@@ -39,7 +36,7 @@
         <activity
             android:name=".InputNote"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ResetCheckMail"
             android:exported="false" />
@@ -58,6 +55,8 @@
         <activity
             android:name=".Register"
             android:exported="false" />
+        <activity android:name=".VerifyPhoneNumber"
+            android:exported="false"/>
     </application>
 
 </manifest>
