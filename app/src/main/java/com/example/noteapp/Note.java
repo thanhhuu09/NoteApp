@@ -16,10 +16,11 @@ public class Note implements Serializable{
     private String password;
     private Boolean lock;
     private String imgUri;
+    private Boolean deleted;
 
     public Note(){}
 
-    public Note(String noteID, int priority, String title, String content,String password, Boolean lock, String imgUri) {
+    public Note(String noteID, int priority, String title, String content,String password, Boolean lock, String imgUri, Boolean deleted) {
         this.noteID = noteID;
         this.priority = priority;
         this.title = title;
@@ -27,6 +28,7 @@ public class Note implements Serializable{
         this.password = password;
         this.lock = lock;
         this.imgUri = imgUri;
+        this.deleted = deleted;
     }
 
     public String getImgUri() {
@@ -85,6 +87,14 @@ public class Note implements Serializable{
         this.lock = lock;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("noteID", noteID);
@@ -94,6 +104,7 @@ public class Note implements Serializable{
         result.put("password", password);
         result.put("lock", lock);
         result.put("imgUri",imgUri);
+        result.put("deleted",deleted);
         return result;
     }
 

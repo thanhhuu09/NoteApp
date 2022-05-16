@@ -1,13 +1,6 @@
 package com.example.noteapp;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import static com.example.noteapp.R.drawable.ic_unlock;
-
-import androidx.annotation.NonNull;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -15,12 +8,8 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,36 +23,27 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 import com.squareup.picasso.Picasso;
 
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class InputNote extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -86,7 +66,6 @@ public class InputNote extends AppCompatActivity {
 
         initUI();
         initListener();
-
     }
 
     private void initUI() {
@@ -122,7 +101,7 @@ public class InputNote extends AppCompatActivity {
                     finish();
                 }else{
                     String noteID = createNoteID();
-                    pushNote(noteID, mPriority, title,content, mPassword,mLock,null);
+                    pushNote(noteID, mPriority, title,content, mPassword,mLock,null, false);
                     mPriority = 0;
                     finish();
                 }
@@ -188,14 +167,14 @@ public class InputNote extends AppCompatActivity {
     }
 
     private void lockNote() {
-        if(mLock == false){
+        if(!mLock){
             mInputLockNote.setBackgroundResource(R.drawable.ic_password);
             if(mTitle.getText().toString().isEmpty() && mContent.getText().toString().isEmpty()){
                 Toast.makeText(this,"Cannot set password for empty note",Toast.LENGTH_SHORT).show();
                 return;
             }
             DialogSetNotePass();
-        }else if(mLock == true){
+        }else{
             unlockNoteDialog();
         }
     }
@@ -287,8 +266,8 @@ public class InputNote extends AppCompatActivity {
         });
     }
 
-    private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock, String imgUri) {
-        Note note = new Note(noteID, priority, title,content, password,lock, null);
+    private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock, String imgUri, Boolean deleted) {
+        Note note = new Note(noteID, priority, title,content, password,lock, null, deleted);
 
         DocumentReference documentReference = fStore.collection("users").document(userID).collection("notes").document(noteID);
         Map<String, Object> noteAdd = note.toMap();
@@ -297,6 +276,7 @@ public class InputNote extends AppCompatActivity {
         if(mImageUri != null){
             uploadToFStorage(noteID, documentReference);
         }
+
     }
 
     private String getImgExtension(Uri uri){
@@ -306,18 +286,22 @@ public class InputNote extends AppCompatActivity {
     }
 
     private void uploadToFStorage(String noteID, DocumentReference documentReference) {
+        StorageReference imageRef = fStorageRef.child(userID).child("images").child(noteID).child(System.currentTimeMillis() + "." + getImgExtension(mImageUri));
 
-        StorageReference imageRef = fStorageRef.child("images").child(userID).child(noteID).child(System.currentTimeMillis() + "." + getImgExtension(mImageUri));
-        imageRef.putFile(mImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        imageRef.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                Map<String, Object> noteUdtMap = new HashMap<>();
-                noteUdtMap.put("imgUri",mImageUri.toString());
-                documentReference.update(noteUdtMap);
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Map<String, Object> noteUdtMap = new HashMap<>();
+                        noteUdtMap.put("imgUri",uri.toString());
+                        documentReference.update(noteUdtMap);
+                    }
+                });
+
             }
         });
-
-
     }
 
     private void notePin() {
@@ -342,7 +326,6 @@ public class InputNote extends AppCompatActivity {
                         requestPermission();
                         break;
                 }
-
                 return false;
             }
 
@@ -351,8 +334,8 @@ public class InputNote extends AppCompatActivity {
     }
 
     private String createNoteID(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return (dtf.format(now)).toString().replace('/','-').replaceAll("\\s","").trim();
+        DocumentReference docRef = fStore.collection("users").document(userID).collection("notes").document();
+
+        return docRef.getId();
     }
 }

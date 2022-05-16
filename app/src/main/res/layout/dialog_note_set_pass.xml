@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    android:padding="5dp"
+    android:padding="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="5dp">
+        android:paddingBottom="5dp">
 
         <ImageView
             android:layout_width="50dp"
@@ -23,6 +23,7 @@
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Set password for note"/>
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="Note password"
+        android:textSize="17sp"
         android:layout_marginBottom="10dp"/>
 
     <EditText
@@ -43,6 +45,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="Confirm note password"
+        android:textSize="17sp"
         android:layout_marginBottom="10dp"/>
 
     <LinearLayout

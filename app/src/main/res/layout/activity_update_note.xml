@@ -25,6 +25,14 @@
             android:layout_weight="1"/>
 
         <ImageButton
+            android:id="@+id/updateNoteRemind"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_remind"
+            android:backgroundTint="@color/icon_color"/>
+
+
+        <ImageButton
             android:id="@+id/updateNoteLock"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -41,43 +49,66 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="16">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/updateEdtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:ems="10"
-            android:hint="Title"
-            android:padding="5dp"
-            android:textColor="@color/note_title"
-            android:layout_marginTop="20dp"
-            android:textSize="@dimen/note_title"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/updateEdtContent"
-            android:background="@null"
-            android:padding="5dp"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Note"
-            android:inputType="textMultiLine"
-            android:textColor="@color/note_content"
-            android:textSize="@dimen/note_content" />
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/udtNotePrevImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"/>
+
+                <EditText
+                    android:id="@+id/updateEdtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:ems="10"
+                    android:hint="Title"
+                    android:padding="5dp"
+                    android:textColor="@color/note_title"
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/note_title"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/updateEdtContent"
+                    android:background="@null"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="Note"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/note_content"
+                    android:textSize="@dimen/note_content" />
+            </LinearLayout>
+
+        </ScrollView>
+
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
+        android:paddingTop="2dp"
         android:gravity="center_vertical"
         android:layout_marginBottom="5dp">
 

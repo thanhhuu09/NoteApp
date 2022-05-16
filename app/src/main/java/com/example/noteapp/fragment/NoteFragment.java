@@ -2,6 +2,7 @@ package com.example.noteapp.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.noteapp.InputNote;
 import com.example.noteapp.MainActivity;
@@ -66,7 +68,7 @@ public class NoteFragment extends Fragment {
 
         if(gridLayoutManager == null){
             gridLayoutManager = new GridLayoutManager(view.getContext(),2);
-            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
 
         MainActivity activity = (MainActivity) getActivity();
@@ -77,8 +79,10 @@ public class NoteFragment extends Fragment {
             public void onClick(View v) {
                 if(gridLayoutManager.getSpanCount() == 2){
                     gridLayoutManager.setSpanCount(1);
+                    recyclerView.setLayoutManager(gridLayoutManager);
                 }else{
                     gridLayoutManager.setSpanCount(2);
+                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
                 }
             }
         });
@@ -173,7 +177,6 @@ public class NoteFragment extends Fragment {
                     dialogLockNote.dismiss();
                     startActivity(intentToUdtNote);
                 }
-
             }
         });
 
@@ -186,13 +189,14 @@ public class NoteFragment extends Fragment {
     }
 
     private void filter(String text) {
-        Query query = collectionReference.orderBy("title").startAt(text).endAt(text+"\uf8ff");
+        Query query = collectionReference.whereEqualTo("deleted",false).orderBy("title").startAt(text).endAt(text+"\uf8ff");
 
         FirestoreRecyclerOptions<Note> filteredNotes = new FirestoreRecyclerOptions.Builder<Note>().
                 setQuery(query, Note.class)
                 .build();
 
         noteAdapter = new NoteAdapter(filteredNotes);
+//        recyclerView.setHasFixedSize(false);
         noteAdapter.startListening();
         recyclerView.setAdapter(noteAdapter);
 
@@ -214,7 +218,7 @@ public class NoteFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        Query query = collectionReference.orderBy("priority",Query.Direction.DESCENDING);
+        Query query = collectionReference.whereEqualTo("deleted",false).orderBy("priority",Query.Direction.DESCENDING);
 
         notes = new FirestoreRecyclerOptions.Builder<Note>()
                 .setQuery(query, Note.class)

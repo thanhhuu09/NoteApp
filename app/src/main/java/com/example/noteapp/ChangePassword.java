@@ -70,25 +70,27 @@ public class ChangePassword extends AppCompatActivity {
 
     private void changePassHandler(String curPass, String newPass){
         String email = user.getEmail();
-
-        try{
+        if(email != null){
+            try{
 //          Check current password and change password in on success
-            fAuth.signInWithEmailAndPassword(email, curPass).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    edtCurrentPass.setError("Your current pass is invalid");
-                }
-            }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                @Override
-                public void onSuccess(AuthResult authResult) {
-                    Log.d("check","in");
-                    user.updatePassword(newPass);
-                    Toast.makeText(ChangePassword.this, "Successfully changed password", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                fAuth.signInWithEmailAndPassword(email, curPass).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        edtCurrentPass.setError("Your current pass is invalid");
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Log.d("check","in");
+                        user.updatePassword(newPass);
+                        Toast.makeText(ChangePassword.this, "Successfully changed password", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }catch (Exception e){
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
 

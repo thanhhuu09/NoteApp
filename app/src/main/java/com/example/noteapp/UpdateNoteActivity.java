@@ -16,13 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.example.noteapp.fragment.NoteFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,14 +38,26 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firestore.v1.StructuredQuery;
 import com.google.firestore.v1.WriteResult;
+import com.google.type.DateTime;
+import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateNoteActivity extends AppCompatActivity   {
-    ImageButton btnUpdateNoteSave, btnUpdatePin, btnUpdateNoteAction, btnUdtNoteLock;
+    ImageButton btnUpdateNoteSave, btnUpdatePin, btnUpdateNoteAction, btnUdtNoteLock, btnUdtNoteRemind;
     TextView txtUdtTitle, txtUdtContent;
     private String userID;
     private FirebaseFirestore fStore;
@@ -48,6 +65,10 @@ public class UpdateNoteActivity extends AppCompatActivity   {
     private int mPriority;
     private boolean mLock;
     private String mPassword;
+    private ImageView udtPrevImg;
+    static FirebaseStorage fStorage = FirebaseStorage.getInstance();
+    static StorageReference fStorageRef = fStorage.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +84,10 @@ public class UpdateNoteActivity extends AppCompatActivity   {
         btnUpdatePin = findViewById(R.id.updateNotePin);
         btnUpdateNoteAction = findViewById(R.id.updateNoteAction);
         btnUdtNoteLock = findViewById(R.id.updateNoteLock);
+        btnUdtNoteRemind = findViewById(R.id.updateNoteRemind);
         txtUdtTitle = findViewById(R.id.updateEdtTitle);
         txtUdtContent = findViewById(R.id.updateEdtContent);
+        udtPrevImg = findViewById(R.id.udtNotePrevImg);
 
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -109,6 +132,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
                 unlockDialog();
             }
         });
+
     }
 
     private void unlockDialog() {
@@ -200,6 +224,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
         noteUdtMap.put("title",udtNoteTitle);
         noteUdtMap.put("content",udtNoteContent);
         noteUdtMap.put("priority",mPriority);
+
         noteDocReference.update(noteUdtMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -217,6 +242,10 @@ public class UpdateNoteActivity extends AppCompatActivity   {
 
                 txtUdtTitle.setText(note.getTitle());
                 txtUdtContent.setText(note.getContent());
+
+                if(note.getImgUri() !=  null){
+                    Picasso.get().load(note.getImgUri()).into(udtPrevImg);
+                }
             }
         });
     }
@@ -234,8 +263,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.act_note_delete:
-                        noteDocReference.delete();
-                        onBackPressed();
+                        DeleteNote();
                         break;
                     case R.id.act_note_lock:
                         DialogSetNotePass();
@@ -245,6 +273,28 @@ public class UpdateNoteActivity extends AppCompatActivity   {
             }
         });
         actionNoteMenu.show();
+    }
+
+    private void DeleteNote() {
+        Map<String, Object> noteUdtMap = new HashMap<>();
+        noteUdtMap.put("priority",0);
+        noteUdtMap.put("deleted",true);
+        noteUdtMap.put("deleteF_date",getDeleteForeverDateTime());
+        noteDocReference.update(noteUdtMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private String getDeleteForeverDateTime(){
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.MINUTE, 15);
+        dt = c.getTime();
+        return dt.toString();
     }
 
 

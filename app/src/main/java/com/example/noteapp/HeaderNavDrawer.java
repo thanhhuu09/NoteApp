@@ -3,7 +3,6 @@ package com.example.noteapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,14 +35,13 @@ public class HeaderNavDrawer extends AppCompatActivity {
 
     private void getDataFromFStore() {
         String userID = fAuth.getCurrentUser().getUid();
+
         DocumentReference documentReference = fStore.collection("users").document(userID);
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
                     navDrawName.setText("Hi "+ documentSnapshot.getString("name"));
-                }else{
-
                 }
             }
         });
