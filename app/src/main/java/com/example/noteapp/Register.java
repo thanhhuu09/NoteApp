@@ -52,6 +52,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         initUi();
         initListener();
+        //gf
     }
 //ok
     private void initUi(){
