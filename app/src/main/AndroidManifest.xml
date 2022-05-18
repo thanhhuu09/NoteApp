@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
         android:label="One Note"
@@ -15,7 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
-            android:name=".Settings"
+            android:name=".TrashReaderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".HeaderNavDrawer"
@@ -50,7 +57,7 @@
             android:name=".ChangePassword"
             android:exported="false" />
         <activity
-            android:name=".VerifyEmail"
+            android:name=".VerifyPhoneNumber"
             android:exported="false" />
         <activity
             android:name=".Login"

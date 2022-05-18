@@ -12,25 +12,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.intellij.lang.annotations.Pattern;
 
 import java.util.concurrent.TimeUnit;
 
 public class Register extends AppCompatActivity {
 
     public static boolean checkEnterOTP;
+    boolean CHECK_EXIST;
     EditText registerName, registerEmail, registerPassword, registerConfirmPassword, registerPhoneNumber;
     Button btnRegister, btnLogin;
     FirebaseAuth fireAuth;
+
     ConstraintLayout mLayoutRegister;
     String userID, userName, userEmail, userPhoneNumber;
     FirebaseFirestore fStore;
@@ -89,6 +99,11 @@ public class Register extends AppCompatActivity {
                 }
                 if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
                     setErr(registerEmail, "Email is invalid");
+                    return;
+                }
+                if (!checkPhone_Email_Exist()){
+                    setErr(registerEmail, "Email already exists.");
+                    setErr(registerEmail, "Email already exists.");
                     return;
                 }
                 if(userPhoneNumber.isEmpty()){
@@ -179,6 +194,29 @@ public class Register extends AppCompatActivity {
                         Log.d("add", "DocumentSnapshot written with ID: " + userID);
                     }
                 });
+    }
+
+    private boolean checkPhone_Email_Exist(){
+        CollectionReference userRef = fStore.collection("users");
+        Query queryMail_Phone = userRef.whereEqualTo("email", userEmail)
+                .whereEqualTo("phoneNumber", userPhoneNumber);
+        queryMail_Phone.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()){
+                        if (document.exists()){
+                            Log.d("CHECK_EXIST", "Name and Email already exists");
+                            CHECK_EXIST = true ;
+                        }
+                        CHECK_EXIST = false;
+                    }
+                } else {
+                    Log.d("TAG", "error get data:" + task.getException());
+                }
+            }
+        });
+        return CHECK_EXIST;
     }
 
 

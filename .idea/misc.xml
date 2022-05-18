@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/drawable/ic_remind.xml" value="0.1255" />
+        <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/drawable/ic_setting.xml" value="0.1255" />
         <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_update_note.xml" value="0.12158054711246201" />
         <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_verify_email.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_verify_phone_number.xml" value="0.25" />
         <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.316" />
@@ -58,7 +61,6 @@
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_pin.xml" value="0.2555" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_pined.xml" value="0.2555" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_record.xml" value="0.2555" />
-        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_restore.xml" value="0.208" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_setting.xml" value="0.2555" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_share.xml" value="0.2555" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_header_nav_drawer.xml" value="0.2463768115942029" />
@@ -68,11 +70,8 @@
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_reset_password.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_settings.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_splash.xml" value="0.2463768115942029" />
-        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_trash.xml" value="0.264" />
-        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_trash_reader.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_update_note.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/dialog_lock_note.xml" value="0.2463768115942029" />
-        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/dialog_note_reminder.xml" value="0.3625" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/dialog_note_set_pass.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/fragment_note.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/fragment_settings.xml" value="0.4" />
