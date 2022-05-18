@@ -2,6 +2,7 @@ package com.example.noteapp;
 
 import android.content.Context;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
+
+import data_local.DataLocalManager;
 
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemClickListener listener;
@@ -66,6 +69,36 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         }else{
             holder.previewImg.setVisibility(View.GONE);
         }
+
+        if(model.getLock() == true){
+            holder.icLock.setVisibility(View.VISIBLE);
+        }else{
+            holder.icLock.setVisibility(View.GONE);
+
+        }
+
+        if(model.getPriority() != 0){
+            holder.icPin.setVisibility(View.VISIBLE);
+        }else{
+            holder.icPin.setVisibility(View.GONE);
+        }
+
+        int size = DataLocalManager.getIntFontSizeValue("font_size");
+
+       switch (size){
+           case 0:
+                holder.title.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+                holder.content.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
+                break;
+          case 1:
+                holder.title.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+                holder.content.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+               break;
+           case 2:
+               holder.title.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
+               holder.content.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+               break;
+       }
     }
     @NonNull
     @Override

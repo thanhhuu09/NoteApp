@@ -11,5 +11,8 @@
     <string name="select_lang">Chọn ngôn ngữ</string>
     <string name="display_options">Hiển thị</string>
     <string name="dark_mode">Chế độ tối</string>
+    <string name="font_size">Kích cỡ chữ</string>
+    <string name="note_heading">Tiêu đề ghi chú</string>
+    <string name="note_content">Nội dung ghi chú</string>
 
 </resources>

@@ -80,7 +80,7 @@
                     android:padding="5dp"
                     android:textColor="@color/note_title"
                     android:layout_marginTop="20dp"
-                    android:textSize="@dimen/note_title"
+                    android:textSize="20sp"
                     android:inputType="textPersonName" />
 
                 <EditText
@@ -95,7 +95,7 @@
                     android:hint="Note"
                     android:inputType="textMultiLine"
                     android:textColor="@color/note_content"
-                    android:textSize="@dimen/note_content" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </ScrollView>

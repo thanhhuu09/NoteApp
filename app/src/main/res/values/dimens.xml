@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="note_title">20sp</dimen>
-    <dimen name="note_content">15sp</dimen>
+    <dimen name="note_title_small">15</dimen>
+    <dimen name="note_content_small">10</dimen>
+
+    <dimen name="note_title_nor">20</dimen>
+    <dimen name="note_content_nor">15</dimen>
+
+    <dimen name="note_title_large">25</dimen>
+    <dimen name="note_content_large">20</dimen>
 </resources>

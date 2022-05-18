@@ -10,6 +10,9 @@
     <string name="select_lang">Select language</string>
     <string name="display_options">Display options</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="font_size">Font size</string>
+    <string name="note_heading">Note heading</string>
+    <string name="note_content">Note content</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

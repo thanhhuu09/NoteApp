@@ -34,4 +34,12 @@ public class DataLocalManager {
     public static boolean getBooleanValue(String key) {
         return DataLocalManager.getInstance().mySharedPreferences.getBooleanValue(key);
     }
+
+    public static void setIntFontSizeValue(String key, int value){
+        DataLocalManager.getInstance().mySharedPreferences.putIntFontSizeValue(key, value);
+    }
+
+    public static int getIntFontSizeValue(String key) {
+        return DataLocalManager.getInstance().mySharedPreferences.getIntFontSizeValue(key);
+    }
 }

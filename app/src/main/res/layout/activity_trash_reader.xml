@@ -60,7 +60,7 @@
             android:padding="5dp"
             android:textColor="@color/note_title"
             android:layout_marginTop="20dp"
-            android:textSize="@dimen/note_title"
+            android:textSize="@dimen/note_title_nor"
             android:inputType="textPersonName" />
 
         <TextView
@@ -76,6 +76,6 @@
             android:hint="Note"
             android:inputType="textMultiLine"
             android:textColor="@color/note_content"
-            android:textSize="@dimen/note_content" />
+            android:textSize="@dimen/note_content_nor" />
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import data_local.DataLocalManager;
 
 public class NoteFragment extends Fragment {
     private NoteAdapter noteAdapter;
@@ -139,6 +143,8 @@ public class NoteFragment extends Fragment {
 
         return mView;
     }
+
+
 
     private void DialogLockNote(Note note) {
         Dialog dialogLockNote = new Dialog(this.getContext());

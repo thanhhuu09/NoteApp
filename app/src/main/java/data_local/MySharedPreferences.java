@@ -35,4 +35,16 @@ public class MySharedPreferences {
         return sharedPreferences.getString(key, "");
     }
 
+    public void putIntFontSizeValue(String key, int value){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key,value);
+        editor.apply();
+    }
+
+    public int getIntFontSizeValue(String key){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, 1);
+    }
+
 }
