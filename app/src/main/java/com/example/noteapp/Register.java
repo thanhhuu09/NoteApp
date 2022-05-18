@@ -53,7 +53,7 @@ public class Register extends AppCompatActivity {
         initUi();
         initListener();
     }
-
+//ok
     private void initUi(){
         mLayoutRegister = findViewById(R.id.layoutRegister);
         registerName = findViewById(R.id.registerName);
